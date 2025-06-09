@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h3>{{ tema['titulo'] }}</h3>
+  <p>{{ tema['contenido'] }}</p>
+  <hr>
+  <h5>Respuestas</h5>
+  <ul>
+    {% for r in tema['respuestas'] %}
+      <li>{{ r }}</li>
+    {% endfor %}
+  </ul>
+  <form method="post">
+    <div class="mb-3">
+      <textarea name="respuesta" class="form-control" placeholder="Escribe tu respuesta..." required></textarea>
+    </div>
+    <button class="btn btn-primary">Responder</button>
+  </form>
+{% endblock %}
