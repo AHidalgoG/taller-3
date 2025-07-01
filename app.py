@@ -11,11 +11,13 @@ app = Flask(__name__)
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client["foroFlask"]
 temas = db["temas"]
+count = temas.count_documents({})
 
 @app.route("/")
 def index():
     todos = temas.find()
-    return render_template("index.html", temas=todos)
+    total = count
+    return render_template("index.html", temas=todos, total=total)
 
 @app.route("/nuevo", methods=["GET", "POST"])
 def nuevo_tema():
