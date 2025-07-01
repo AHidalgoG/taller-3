@@ -2,16 +2,259 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Foro</title>
-  <!-- Bootstrap -->
+  <title>Foro UNAP</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+  <link rel="icon" href="./../../../../../../Pictures/-logo_icci.png">
+  <style>
+    :root {
+      --unap-blue: #00548F;
+      --unap-yellow: #F6B618;
+    }
+    
+    .forum-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://www.unap.cl/prontus_unap/site/artic/20221230/imag/foto_0000000320221230103329/UNAP_FRONTIS_PLAYA_BRAVA.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: blur(3px);
+      z-index: -1;
+    }
+    
+    .hero-content {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 3rem;
+      border-radius: 15px;
+      text-align: center;
+      border: 2px solid var(--unap-yellow);
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin: 0;
+      color: var(--unap-blue);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .navbar-unap {
+      background-color: var(--unap-blue) !important;
+    }
+    
+    .category-badge {
+      background-color: var(--unap-yellow);
+      color: #000;
+    }
+    
+    .topic-card {
+      transition: transform 0.2s;
+      border-left: 4px solid var(--unap-blue);
+    }
+    
+    .topic-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+    
+    footer {
+      background-color: var(--unap-blue);
+      color: white;
+    }
+  </style>
 </head>
-<body class="container py-4">
-  <h1 class="mb-4"><a href="{{ url_for('index') }}">🗨️ Foro Flask</a></h1>
 
-  {% block content %}
-  <!-- Aquí se insertará el contenido de otras plantillas -->
-  {% endblock %}
+<body class="container-fluid px-0">
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-unap">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{{ url_for('index') }}">
+        <img src="https://www.unap.cl/prontus_unap/site/artic/20210311/imag/foto_0000000120210311161733/logo_unap_2021_ajustado.png" 
+             height="40" class="d-inline-block align-top me-2" alt="Logo UNAP">
+        Foro Académico
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}"><i class="bi bi-house-door"></i> Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('nuevo_tema') }}"><i class="bi bi-plus-circle"></i> Nuevo Tema</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-question-circle"></i> Ayuda</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
+  <!-- Banner hero -->
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1 class="hero-title">Foro Universitario UNAP</h1>
+      <p class="lead mt-3">Espacio de discusión académica y colaborativa</p>
+    </div>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="container my-4">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-lg-3 mb-4">
+        <!-- Búsqueda -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-search"></i> Buscar</h5>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Términos...">
+              <button class="btn btn-primary" type="button"><i class="bi bi-arrow-right"></i></button>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="searchTitles">
+              <label class="form-check-label small" for="searchTitles">
+                Solo en títulos
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categorías -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-tags"></i> Categorías</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Académico
+                <span class="badge bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Investigación
+                <span class="badge bg-primary rounded-pill">8</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                Vida Universitaria
+                <span class="badge bg-primary rounded-pill">23</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-graph-up"></i> Estadísticas</h5>
+            <div class="text-center py-2">
+              <div class="h4">1,245</div>
+              <small class="text-muted">Temas</small>
+            </div>
+            <div class="text-center py-2">
+              <div class="h4">5,892</div>
+              <small class="text-muted">Respuestas</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="col-lg-9">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-4">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Temas Recientes</li>
+          </ol>
+        </nav>
+
+        <!-- Barra de acciones -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2><i class="bi bi-chat-left-text"></i> Últimos Temas</h2>
+          <a href="{{ url_for('nuevo_tema') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Nuevo Tema
+          </a>
+        </div>
+
+        <!-- Contenido dinámico -->
+        <div class="forum-content">
+          {% block content %}
+          <!-- Aquí se insertará el contenido de otras plantillas -->
+          {% endblock %}
+        </div>
+
+        <!-- Paginación -->
+        <nav aria-label="Page navigation" class="mt-4">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Siguiente</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="-logo_icci.png" 
+               height="50" alt="Logo UNAP">
+          <p class="mt-2 mb-0 small">Universidad Arturo Prat</p>
+          <p class="small">Iquique, Chile</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <h5>Contacto</h5>
+          <p class="mb-1 small"><i class="bi bi-envelope"></i> foro@unap.cl</p>
+          <p class="mb-1 small"><i class="bi bi-telephone"></i> +56 57 252 5000</p>
+          <p class="small"><i class="bi bi-geo-alt"></i> Av. Arturo Prat 2120</p>
+        </div>
+      </div>
+      <div class="text-center mt-3 pt-3 border-top">
+        <p class="small mb-0">© 2025 Foro Académico UNAP - Todos los derechos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Activar tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>
 </body>
 </html>

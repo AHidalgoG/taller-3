@@ -1,18 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h3>{{ tema['titulo'] }}</h3>
-  <p>{{ tema['contenido'] }}</p>
-  <hr>
-  <h5>Respuestas</h5>
-  <ul>
-    {% for r in tema['respuestas'] %}
-      <li>{{ r }}</li>
-    {% endfor %}
-  </ul>
-  <form method="post">
-    <div class="mb-3">
-      <textarea name="respuesta" class="form-control" placeholder="Escribe tu respuesta..." required></textarea>
+<div class="tema-container p-4" style="max-width: 800px; margin: 0 auto; text-align: left;">
+  <!-- Tema principal -->
+  <div class="tema-header mb-4">
+    <h2 style="color: #333; font-weight: 600; margin-bottom: 15px;">
+      {{ tema['titulo'] }}
+    </h2>
+    <div class="tema-content" style="padding: 10px 0; border-bottom: 1px solid #eee;">
+      <p style="font-size: 1rem; line-height: 1.5; margin: 0;">{{ tema['contenido'] }}</p>
     </div>
-    <button class="btn btn-primary">Responder</button>
-  </form>
+  </div>
+
+  <!-- Respuestas -->
+  <div class="respuestas-section">
+    <h4 style="color: #333; font-size: 1.1rem; margin: 20px 0 10px 0;">
+      Respuestas ({{ tema['respuestas']|length }})
+    </h4>
+
+    {% if tema['respuestas'] %}
+      <div class="respuestas-list" style="margin-left: 10px;">
+        {% for r in tema['respuestas'] %}
+        <div class="respuesta-item" style="padding: 8px 0; border-bottom: 1px solid #f5f5f5;">
+          <div style="font-weight: 500; margin-bottom: 3px;">Usuario</div>
+          <div>{{ team['creador'] }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="color: #777; padding: 10px 0;">
+        No hay respuestas todavía
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Formulario -->
+  <div class="responder-form" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;">
+    <h5 style="color: #333; font-size: 1rem; margin-bottom: 10px;">Tu respuesta</h5>
+    <form method="post">
+      <div style="margin-bottom: 10px;">
+        <textarea name="respuesta" 
+                 class="form-control" 
+                 rows="3"
+                 placeholder="Escribe tu respuesta aquí..."
+                 style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+      </div>
+      <button type="submit" style="background-color: #4a6ea9; color: white; border: none; padding: 6px 12px; border-radius: 4px;">
+        Publicar
+      </button>
+    </form>
+  </div>
+</div>
 {% endblock %}
