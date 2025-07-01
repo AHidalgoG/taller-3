@@ -5,6 +5,7 @@
   <div class="tema-header mb-4">
     <h2 style="color: #333; font-weight: 600; margin-bottom: 15px;">
       {{ tema['titulo'] }}
+      <h5>Autor: {{tema['creador']}} </h5>
     </h2>
     <div class="tema-content" style="padding: 10px 0; border-bottom: 1px solid #eee;">
       <p style="font-size: 1rem; line-height: 1.5; margin: 0;">{{ tema['contenido'] }}</p>
@@ -21,8 +22,7 @@
       <div class="respuestas-list" style="margin-left: 10px;">
         {% for r in tema['respuestas'] %}
         <div class="respuesta-item" style="padding: 8px 0; border-bottom: 1px solid #f5f5f5;">
-          <div style="font-weight: 500; margin-bottom: 3px;">Usuario</div>
-          <div>{{ team['creador'] }}</div>
+          <div style="font-weight: 500; margin-bottom: 3px;">{{r}}</div>
         </div>
         {% endfor %}
       </div>

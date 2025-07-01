@@ -22,7 +22,8 @@ def nuevo_tema():
     if request.method == "POST":
         titulo = request.form["titulo"]
         contenido = request.form["contenido"]
-        temas.insert_one({"titulo": titulo, "contenido": contenido, "respuestas": []})
+        creador = request.form["creador"]
+        temas.insert_one({"titulo": titulo, "creador": creador, "contenido": contenido, "respuestas": []})
         return redirect(url_for("index"))
     return render_template("nuevo_tema.html")
 
