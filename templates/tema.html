@@ -9,7 +9,6 @@
         <div class="avatar-placeholder"></div>
         <div>
           <span class="autor-nombre">Publicado por: {{ tema['creador'] }}</span>
-          <span class="tema-fecha">el {{ tema.get('fecha', 'Fecha no disponible') }}</span>
         </div>
       </div>
     </header>
@@ -35,17 +34,17 @@
           <div class="respuesta-autor">
             <div class="avatar-placeholder"></div>
             <div>
-              <span class="autor-nombre">{{ tema['creador'] }}</span>
-              <span class="respuesta-fecha">el {{ tema.get('fecha', 'Fecha no disponible') }}</span>
+              <span class="autor-nombre">{{ respuesta.comentador }}</span>
             </div>
           </div>
-          
+
           <div class="respuesta-contenido">
-            <p>{{ respuesta }}</p>
+            <p>{{ respuesta.comentario }}</p>
           </div>
         </article>
         {% endfor %}
       </div>
+
     {% else %}
       <div class="sin-respuestas">
         <i class="far fa-comment-dots"></i>

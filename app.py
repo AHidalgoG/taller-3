@@ -33,9 +33,19 @@ def nuevo_tema():
         titulo = request.form["titulo"]
         creador = session.get("nombre")
         contenido = request.form["contenido"]
-        temas.insert_one({"titulo": titulo, "creador": creador, "contenido": contenido, "respuestas": []})
+        nuevo_documento = {
+            "titulo": titulo,
+            "creador": creador,
+            "contenido": contenido,
+            "respuestas": []  # lista vacía para respuestas con comentador y comentario
+        }
+
+        temas.insert_one(nuevo_documento)
+
         return redirect(url_for("index"))
-    return render_template("nuevo_tema.html", total=total, usuario=nombre)
+    
+    return render_template("nuevo_tema.html", total=count, usuario=nombre)
+
 
 @app.route("/tema/<id>", methods=["GET", "POST"])
 def ver_tema(id):
@@ -43,11 +53,18 @@ def ver_tema(id):
     nombre = session.get("nombre")
     total = count
     if request.method == "POST":
-        nueva = request.form["respuesta"]
         temas.update_one(
             {"_id": ObjectId(id)},
-            {"$push": {"respuestas": nueva}}
+            {
+                "$push": {
+                    "respuestas": {
+                        "comentador": nombre,
+                        "comentario": request.form["respuesta"]
+                    }
+                }
+            }
         )
+
         return redirect(url_for("ver_tema", id=id))
 
     return render_template("tema.html", tema=tema, total=total, usuario=nombre)    
