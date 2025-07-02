@@ -9,6 +9,7 @@ load_dotenv() #se carga el archivo .env, donde se ubican las credenciales de Mon
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "clave-secreta-de-desarrollo")
+print("URI:", os.getenv("MONGO_URI"))
 
 client = MongoClient(os.getenv("MONGO_URI")) #se accede a MongoDB
 db = client["foroFlask"] #se accede a la BD foroFlask dentro de las credenciales accedidas anteriormente por client
@@ -27,18 +28,20 @@ def index():
 @app.route("/nuevo", methods=["GET", "POST"])
 def nuevo_tema():
     nombre = session.get("nombre")
+    total = count
     if request.method == "POST":
         titulo = request.form["titulo"]
         creador = session.get("nombre")
         contenido = request.form["contenido"]
         temas.insert_one({"titulo": titulo, "creador": creador, "contenido": contenido, "respuestas": []})
         return redirect(url_for("index"))
-    return render_template("nuevo_tema.html", usuario=nombre)
+    return render_template("nuevo_tema.html", total=total, usuario=nombre)
 
 @app.route("/tema/<id>", methods=["GET", "POST"])
 def ver_tema(id):
     tema = temas.find_one({"_id": ObjectId(id)})
     nombre = session.get("nombre")
+    total = count
     if request.method == "POST":
         nueva = request.form["respuesta"]
         temas.update_one(
@@ -47,7 +50,7 @@ def ver_tema(id):
         )
         return redirect(url_for("ver_tema", id=id))
 
-    return render_template("tema.html", tema=tema, usuario=nombre)    
+    return render_template("tema.html", tema=tema, total=total, usuario=nombre)    
 
 @app.route('/login', methods=["POST", "GET"])
 def login():

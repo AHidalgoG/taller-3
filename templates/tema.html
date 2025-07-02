@@ -1,55 +1,258 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="tema-container p-4" style="max-width: 800px; margin: 0 auto; text-align: left;">
+<div class="tema-detalle-container">
   <!-- Tema principal -->
-  <div class="tema-header mb-4">
-    <h2 style="color: #333; font-weight: 600; margin-bottom: 15px;">
-      {{ tema['titulo'] }} <br>
-      Autor: {{tema['creador']}}
-    </h2>
-    <div class="tema-content" style="padding: 10px 0; border-bottom: 1px solid #eee;">
-      <p style="font-size: 1rem; line-height: 1.5; margin: 0;">{{ tema['contenido'] }}</p>
-    </div>
+  <article class="tema-principal">
+    <header class="tema-header">
+      <h1 class="tema-titulo">Titulo: {{ tema['titulo'] }}</h1>
+      <div class="tema-autor">
+        <div class="avatar-placeholder"></div>
+        <div>
+          <span class="autor-nombre">Publicado por: {{ tema['creador'] }}</span>
+          <span class="tema-fecha">el {{ tema.get('fecha', 'Fecha no disponible') }}</span>
+        </div>
+      </div>
+    </header>
+<div class="tema-contenido">
+  <div class="contenido-destacado">
+    <p> <b>Descripción: </b>{{ tema['contenido'] }}</p>
   </div>
+</div>
 
-  <!-- Respuestas -->
-  <div class="respuestas-section">
-    <h4 style="color: #333; font-size: 1.1rem; margin: 20px 0 10px 0;">
-      Respuestas ({{ tema['respuestas']|length }})
-    </h4>
+
+  </article>
+
+  <!-- Sección de respuestas -->
+  <section class="respuestas-section">
+    <div class="respuestas-header">
+      <h2><i class="far fa-comments"></i> Respuestas <span class="badge">{{ tema['respuestas']|length }}</span></h2>
+    </div>
 
     {% if tema['respuestas'] %}
-      <div class="respuestas-list" style="margin-left: 10px;">
-        {% for r in tema['respuestas'] %}
-        <div class="respuesta-item" style="padding: 8px 0; border-bottom: 1px solid #f5f5f5;">
-          <div style="font-weight: 500; margin-bottom: 3px;">{{r}}</div>
-        </div>
+      <div class="respuestas-list">
+        {% for respuesta in tema['respuestas'] %}
+        <article class="respuesta">
+          <div class="respuesta-autor">
+            <div class="avatar-placeholder"></div>
+            <div>
+              <span class="autor-nombre">{{ tema['creador'] }}</span>
+              <span class="respuesta-fecha">el {{ tema.get('fecha', 'Fecha no disponible') }}</span>
+            </div>
+          </div>
+          
+          <div class="respuesta-contenido">
+            <p>{{ respuesta }}</p>
+          </div>
+        </article>
         {% endfor %}
       </div>
     {% else %}
-      <div style="color: #777; padding: 10px 0;">
-        No hay respuestas todavía
+      <div class="sin-respuestas">
+        <i class="far fa-comment-dots"></i>
+        <p>No hay respuestas todavía. ¡Sé el primero en participar!</p>
       </div>
     {% endif %}
-  </div>
-
+  </section>
   {% if usuario %}
-  <!-- Formulario -->
-  <div class="responder-form" style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee;">
-    <h5 style="color: #333; font-size: 1rem; margin-bottom: 10px;">Tu respuesta</h5>
+  <!-- Formulario de respuesta -->
+  <section class="responder-form">
+    <h3><i class="fas fa-reply"></i> Responder al tema</h3>
     <form method="post">
-      <div style="margin-bottom: 10px;">
+      <div class="form-group">
         <textarea name="respuesta" 
-                 class="form-control" 
-                 rows="3"
-                 placeholder="Escribe tu respuesta aquí..."
-                 style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                  class="form-control" 
+                  rows="5"
+                  placeholder="Escribe tu respuesta aquí..."
+                  required></textarea>
       </div>
-      <button type="submit" style="background-color: #4a6ea9; color: white; border: none; padding: 6px 12px; border-radius: 4px;">
-        Publicar
-      </button>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn-enviar">
+          <i class="fas fa-paper-plane"></i> Publicar respuesta
+        </button>
+      </div>
     </form>
-  </div>
+  </section>
   {% endif %}
 </div>
+<style>
+  .contenido-destacado {
+    background-color: #f8fafc; /* Fondo azul muy claro */
+    border-left: 4px solid #3498db; /* Borde lateral azul */
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0; /* Bordes redondeados solo a la derecha */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .contenido-destacado p {
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .contenido-destacado {
+      padding: 1rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+<style>
+  /* Estilos para el tema - Solo frontend */
+  .tema-detalle-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  .tema-principal {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .tema-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .tema-titulo {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+  
+  .tema-autor {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    background-color: #e8f4fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3498db;
+  }
+  
+  .autor-nombre {
+    font-weight: 600;
+    display: block;
+  }
+  
+  .tema-fecha {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+  }
+  
+  .tema-contenido {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  
+  .tema-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .tema-visitas {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  /* Estilos para respuestas */
+  .respuestas-header {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+  }
+  
+  .respuestas-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .respuesta {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .respuesta-autor {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .respuesta-contenido {
+    margin-left: 55px;
+    line-height: 1.6;
+  }
+  
+  .sin-respuestas {
+    text-align: center;
+    padding: 3rem 0;
+    color: #7f8c8d;
+  }
+  
+  .sin-respuestas i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Formulario de respuesta */
+  .responder-form {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+  }
+  
+  .responder-form h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .btn-enviar {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .tema-titulo {
+      font-size: 1.5rem;
+    }
+    
+    .tema-autor, .respuesta-autor {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .avatar-placeholder {
+      margin-bottom: 0.5rem;
+    }
+    
+    .respuesta-contenido {
+      margin-left: 0;
+    }
+  }
+</style>
 {% endblock %}
