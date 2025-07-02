@@ -1,0 +1,76 @@
+:root {
+    --unap-blue: #00548F;
+    --unap-yellow: #F6B618;
+}
+
+.forum-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.hero-banner {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hero-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.unap.cl/prontus_unap/site/artic/20221230/imag/foto_0000000320221230103329/UNAP_FRONTIS_PLAYA_BRAVA.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px);
+    z-index: -1;
+}
+
+.hero-content {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 3rem;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid var(--unap-yellow);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--unap-blue);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-unap {
+    background-color: var(--unap-blue) !important;
+}
+
+.category-badge {
+    background-color: var(--unap-yellow);
+    color: #000;
+}
+
+.topic-card {
+    transition: transform 0.2s;
+    border-left: 4px solid var(--unap-blue);
+}
+
+.topic-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: var(--unap-blue);
+    color: white;
+}
