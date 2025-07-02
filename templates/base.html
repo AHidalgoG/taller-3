@@ -23,6 +23,11 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          
+          {% if usuario %}
+          <li>
+            <a class="nav-link"><i class="bi bi-person-raised-hand"></i>Hola {{ usuario }}</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('index') }}"><i class="bi bi-house-door"></i> Inicio</a>
           </li>
@@ -30,8 +35,13 @@
             <a class="nav-link" href="{{ url_for('nuevo_tema') }}"><i class="bi bi-plus-circle"></i> Nuevo Tema</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('logout') }}"><i class="bi bi-question-circle"></i> Cerrar Sesión</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
             <a class="nav-link" href="{{ url_for('login') }}"><i class="bi bi-question-circle"></i> Iniciar Sesión</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -117,9 +127,11 @@
         <!-- Barra de acciones -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2><i class="bi bi-chat-left-text"></i> Últimos Temas</h2>
+          {% if usuario %}
           <a href="{{ url_for('nuevo_tema') }}" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i> Nuevo Tema
           </a>
+          {% endif %}
         </div>
 
         <!-- Contenido dinámico -->
@@ -181,3 +193,4 @@
   </script>
 </body>
 </html>
+{{ url_for('index')}}
